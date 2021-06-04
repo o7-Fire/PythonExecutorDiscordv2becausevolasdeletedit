@@ -103,10 +103,12 @@ async def on_message(message):
         sys.exit(0)
 
     if message.content.startswith(prefix):
-        if TOKEN in message.content:
+        assadassociate = message.content
+        message.content = message.content.lower()
+        if TOKEN.lower() in message.content:
             await message.delete()
             return
-        if "TOKEN" in message.content:
+        if "token" in message.content:
             await message.channel.send("<@" + str(message.author.id) + "> lmao no 0 (message contains bot token)")
             await message.delete()
             return
@@ -115,7 +117,7 @@ async def on_message(message):
             await message.delete()
             return
         if "env" in message.content:
-            message.content = message.content.replace("env", "env𝔥")
+            assadassociate = message.content.replace("env", "env𝔥")
         if "zipbomb" in message.content:
             await message.channel.send("<@" + str(message.author.id) + "> lmao no 2 (message contains zipbomb)")
             await message.delete()
@@ -126,6 +128,7 @@ async def on_message(message):
         if "@here" in message.content:
             await message.channel.send("<@" + str(message.author.id) + "> lmao no 4 (message contains @ here)")
             return
+        message.content = assadassociate
         if 1 == 1:
             file_object = open("pee.py", "w+")
             removedPy = message.content.replace(prefix, "", 1)
@@ -148,9 +151,10 @@ async def on_message(message):
             my_env["TOKEN"] = untokenize
             std = subprocess.run(['python', 'pee.py'], capture_output=True, text=True, env=my_env,
                                  timeout=random.randint(5, 20))
-            if TOKEN in std.stdout:
-                std.stdout = std.stdout.replace(TOKEN, untokenize)
-            if "TOKEN" in std.stdout:
+            std.stdout = std.stdout.lower()
+            if TOKEN.lower() in std.stdout:
+                std.stdout = std.stdout.replace(TOKEN.lower(), untokenize.lower())
+            if "token" in std.stdout:
                 await message.channel.send("<@" + str(message.author.id) + "> lmao no 0 (message contains bot token)")
                 await message.delete()
                 return
