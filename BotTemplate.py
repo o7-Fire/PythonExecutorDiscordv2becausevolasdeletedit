@@ -55,16 +55,11 @@ for r in RefuseToElaborateFurther:
 def refuseToElaborateFurther(string):
     if string is None: return None
     st = str(string).upper()
-    choice = []
-    for i in unchoice:
-        a = i
-        for ii in range(random.randint(2, 6)):
-            a = a + random.choice(unchoice)
-        choice.append(a)
+
     for i in RefuseToElaborateFurther:
         i = i.upper()
         if i in st:
-            st = st.replace(i, random.choice(choice))
+            st = st.replace(i, i[0:len(i)-2]+random.choice(unchoice))
     if st == str(string).upper(): return None
     print("Refuse to elaborate further")
     st: str = str(st)
