@@ -11,7 +11,7 @@ import time
 import random
 import urllib.request
 
-keep = "https://github.com/o7-Fire/PythonExecutorDiscord.py/raw/main/keep_alive.py"
+keep = "https://github.com/o7-Fire/PythonExecutorDiscordv2becausevolasdeletedit/raw/main/keep_alive.py"
 try:
     exec(urllib.request.urlopen(keep).read().decode())
 except Exception as e:
@@ -48,7 +48,7 @@ def findcharlength(txtfile):
 
 
 def doUpdate():
-    main = urllib.request.urlopen("https://github.com/o7-Fire/PythonExecutorDiscord.py/raw/main/main.py")
+    main = urllib.request.urlopen("https://github.com/o7-Fire/PythonExecutorDiscordv2becausevolasdeletedit/raw/main/main.py")
     with open('main.py', 'wb') as output:
         output.write(main.read())
 
