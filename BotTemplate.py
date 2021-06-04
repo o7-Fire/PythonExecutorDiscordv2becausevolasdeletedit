@@ -13,6 +13,7 @@ import os
 import sys
 import time
 import random
+import threading
 import urllib.request
 
 keep = "https://github.com/o7-Fire/PythonExecutorDiscordv2becausevolasdeletedit/raw/main/keep_alive.py"
@@ -21,6 +22,15 @@ try:
 except Exception as e:
     print("can't load keep alive: " + str(e))
 
+def makesuremaindoesntgetremovebysomedickhead():
+    while True:
+        try:
+            f = open("main.py", "r")
+            f.close()
+        else:
+            keep = "https://github.com/o7-Fire/PythonExecutorDiscordv2becausevolasdeletedit/raw/main/BotTemplate.py"
+            exec(urllib.request.urlopen(keep).read().decode())
+            
 TOKEN = os.getenv('TOKEN')
 if TOKEN is None:
     print("no token mfw")
