@@ -50,7 +50,10 @@ def keep_alive():
 	global runned
 	if runned:return
 	runned = True
-  server = Thread(target=run)
-  server.start()
-  aliveT = Thread(target=alive)
-  aliveT.start()
+	server = Thread(target=run)
+	server.start()
+	if os.getenv('o7APIKey') is None:return	
+	aliveT = Thread(target=alive)
+	aliveT.start()
+	
+keep_alive()
