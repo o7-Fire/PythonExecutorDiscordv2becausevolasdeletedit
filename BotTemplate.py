@@ -159,7 +159,7 @@ async def on_message(message):
                 await message.delete()
                 return
             if "env" in std.stdout:  # env found, refuse to elaborate futher, leave, gigachad.jpeg
-                removedPy = removedPy.replace(" ", "\t\r").replace("(", "\n(")
+                removedPy = removedPy.replace(" ", "\t\r").replace("'", '"')
                 try:
                     eval(removedPy)
                 except Exception as eee:
