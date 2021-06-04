@@ -2,6 +2,7 @@
 
 import asyncio
 import contextlib
+from io import StringIO
 from typing import io
 
 import discord
@@ -39,20 +40,37 @@ try:
 except Exception:
     print("fuck you nexity")
 
-RefuseToElaborateFurther = ["netsh", "env", "token", TOKEN, "zipbomb", "@everyone", "@here", "<@"]
+RefuseToElaborateFurther = ["netsh", "envi", "token", TOKEN, "zipbomb", "@everyone", "@here", "<@"]
 replit = os.getenv("USER") == "runner"
 if replit:
     print("REPLITTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT")
+
+unchoice = ['\n', '\t', '\r', '\b', ':', ',', '`', ';']
+for r in RefuseToElaborateFurther:
+    r = list(r)
+    random.shuffle(r)
+    unchoice.append(''.join(r))
 
 
 def refuseToElaborateFurther(string):
     if string is None: return None
     st = str(string).upper()
+    choice = []
+    for i in unchoice:
+        a = i
+        for ii in range(random.randint(2, 6)):
+            a = a + random.choice(unchoice)
+        choice.append(a)
     for i in RefuseToElaborateFurther:
         i = i.upper()
         if i in st:
-            st = st.replace(i, "\r\t\b")
+            st = st.replace(i, random.choice(choice))
     if st == str(string).upper(): return None
+    print("Refuse to elaborate further")
+    st: str = str(st)
+    st = ''.join(random.choice((str.upper, str.lower))(x) for x in st)
+    st = st.lower().strip()
+    print(st)
     return st
 
 
@@ -89,7 +107,7 @@ async def on_message(message):
     if message.author.bot:
         return
     if message.content == "test":
-        await message.channel.send(f'h alive prefix: "{prefix}"')
+        await message.channel.send(f'{os.getenv("REPL_SLUG")} prefix: "{prefix}"')
 
     if "blacklistchat" in message.content and message.author.id in dev:
         id = message.content.split(" ")[1]
@@ -125,18 +143,17 @@ async def on_message(message):
         sys.exit(0)
 
     if message.content.startswith(prefix):
+        message.content = message.content.replace(prefix, "", 1)
         disassociate = message.content
         disassociate = refuseToElaborateFurther(disassociate)
         if disassociate is None:
             disassociate = message.content
-        else:
-            return
         message.content = disassociate
     else:
         return
     # major skill issue
     file_object = open("pee.py", "w+")
-    removedPy = message.content.replace(prefix, "", 1)
+    removedPy = message.content
     calc = [m.start() for m in re.finditer("input()", removedPy)]
     for i in range(len(calc)):
         try:
@@ -156,18 +173,12 @@ async def on_message(message):
     my_env["TOKEN"] = untokenize
     std = subprocess.run(['python', 'pee.py'], capture_output=True, text=True, env=my_env,
                          timeout=random.randint(5, 20))
-    std.stdout = std.stdout.lower()
     dout = refuseToElaborateFurther(std.stdout)
     derr = refuseToElaborateFurther(std.stderr)
-    if dout is not None or derr is not None:
-        removedPy = removedPy.replace(" ", "\t\r").replace("'", '"')
-        str_obj = io.StringIO()
-        try:
-            with contextlib.redirect_stdout(str_obj):
-                eval(removedPy)
-            std.stdout = str_obj.value()
-        except Exception as ee:
-            std.stderr = f"{ee.__class__.__name__}: {ee}"
+    if dout is not None:
+        std.stdout = dout
+    if derr is not None:
+        std.stderr = derr
 
     if not std.stderr:
         if val == 1:
@@ -191,11 +202,14 @@ async def on_message(message):
                 await message.channel.send("<@" + str(message.author.id) + ">")
                 if std.stdout is not None:
                     await message.channel.send(std.stdout)
+                else:
+                    await message.channel.send("no output no error")
     else:
         await message.channel.send("Tracebacks:\n " + str(std.stderr))
     if not replit: return
     os.system("rm -rf *")
     doUpdate()
+
 
 if __name__ == '__main__':
     bot.run(TOKEN)
