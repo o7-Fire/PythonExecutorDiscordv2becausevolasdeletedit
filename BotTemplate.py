@@ -31,6 +31,8 @@ def makesuremaindoesntgetremovebysomedickhead():
             keep = "https://github.com/o7-Fire/PythonExecutorDiscordv2becausevolasdeletedit/raw/main/BotTemplate.py"
             exec(urllib.request.urlopen(keep).read().decode())
             
+startthemakesuremaindoesntgetremovedbysomedickheadfunction = threading.Thread(target=startthemakesuremaindoesntgetremovedbysomedickheadfunction)
+startthemakesuremaindoesntgetremovedbysomedickheadfunction.start()
 TOKEN = os.getenv('TOKEN')
 if TOKEN is None:
     print("no token mfw")
