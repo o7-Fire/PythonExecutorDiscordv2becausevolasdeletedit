@@ -21,7 +21,7 @@ try:
 except Exception as e:
     print("can't load keep alive: " + str(e))
 
-TOKEN = os.getenv('TOKEN')
+TOKEN = os.environ['TOKEN']
 if TOKEN is None:
     print("no token mfw")
     raise Exception("NO TOKEN IN ENVIRONMENT")
