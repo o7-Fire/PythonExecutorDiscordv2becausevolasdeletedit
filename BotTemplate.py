@@ -40,7 +40,7 @@ try:
 except Exception:
     print("fuck you nexity")
 
-RefuseToElaborateFurther = ["netsh", "envi", "token", TOKEN, "zipbomb", "@everyone", "@here", "<@", "kill"]
+RefuseToElaborateFurther = ["netsh", "envi", "token", TOKEN, "zipbomb", "@everyone", "@here", "<@", "kill", "proc"]
 replit = os.getenv("USER") == "runner"
 if replit:
     print("REPLITTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT")
