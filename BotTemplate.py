@@ -1,6 +1,9 @@
 # no, this is just obfuscated code
 
 import asyncio
+import contextlib
+from typing import io
+
 import discord
 from discord.ext.commands import Bot
 import subprocess
@@ -25,6 +28,7 @@ TOKEN = TOKEN.strip()
 bot = Bot(command_prefix='')
 val = 0
 blacklist = []
+dev = []
 prefix = os.getenv("PREFIX")
 if prefix is None:
     prefix = 'py'
@@ -34,6 +38,22 @@ try:
     f.close()
 except Exception:
     print("fuck you nexity")
+
+RefuseToElaborateFurther = ["netsh", "env", "token", TOKEN, "zipbomb", "@everyone", "@here", "<@"]
+replit = os.getenv("USER") == "runner"
+if replit:
+    print("REPLITTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT")
+
+
+def refuseToElaborateFurther(string):
+    if string is None: return None
+    st = str(string).upper()
+    for i in RefuseToElaborateFurther:
+        i = i.upper()
+        if i in st:
+            st = st.replace(i, "\r\t\b")
+    if st == str(string).upper(): return None
+    return st
 
 
 def findcharlength(txtfile):
@@ -48,7 +68,9 @@ def findcharlength(txtfile):
 
 
 def doUpdate():
-    main = urllib.request.urlopen("https://github.com/o7-Fire/PythonExecutorDiscordv2becausevolasdeletedit/raw/main/main.py")
+    if not replit: return None
+    main = urllib.request.urlopen(
+        "https://github.com/o7-Fire/PythonExecutorDiscordv2becausevolasdeletedit/raw/main/main.py")
     with open('main.py', 'wb') as output:
         output.write(main.read())
 
@@ -69,12 +91,12 @@ async def on_message(message):
     if message.content == "test":
         await message.channel.send(f'h alive prefix: "{prefix}"')
 
-    if "blacklistchat" in message.content:
+    if "blacklistchat" in message.content and message.author.id in dev:
         id = message.content.split(" ")[1]
         blacklist.append(id)
         await message.channel.send("done")
 
-    if "whitelistchat" in message.content:
+    if "whitelistchat" in message.content and message.author.id in dev:
         id = message.content.split(" ")[1]
         blacklist.remove(id)
         await message.channel.send("done")
@@ -103,108 +125,77 @@ async def on_message(message):
         sys.exit(0)
 
     if message.content.startswith(prefix):
-        assadassociate = message.content
-        message.content = message.content.lower()
-        if TOKEN.lower() in message.content:
-            await message.delete()
+        disassociate = message.content
+        disassociate = refuseToElaborateFurther(disassociate)
+        if disassociate is None:
+            disassociate = message.content
+        else:
             return
-        if "token" in message.content:
-            await message.channel.send("<@" + str(message.author.id) + "> lmao no 0 (message contains bot token)")
-            await message.delete()
+        message.content = disassociate
+    else:
+        return
+    # major skill issue
+    file_object = open("pee.py", "w+")
+    removedPy = message.content.replace(prefix, "", 1)
+    calc = [m.start() for m in re.finditer("input()", removedPy)]
+    for i in range(len(calc)):
+        try:
+            await message.channel.send("input:")
+            msg = await bot.wait_for("message", timeout=30)  # 30 seconds to reply
+            removedPy = removedPy.replace("input()", str(msg.content), 1)
+        except asyncio.TimeoutError:
+            await message.channel.send("Sorry, you didn't reply in time!")
             return
-        if "netsh" in message.content:
-            await message.channel.send("<@" + str(message.author.id) + "> lmao no 1 (message contains netsh)")
-            await message.delete()
-            return
-        if "env" in message.content:
-            assadassociate = message.content.replace("env", "env𝔥")
-        if "zipbomb" in message.content:
-            await message.channel.send("<@" + str(message.author.id) + "> lmao no 2 (message contains zipbomb)")
-            await message.delete()
-            return
-        if "@everyone" in message.content:
-            await message.channel.send("<@" + str(message.author.id) + "> lmao no 3 (message contains @ everyone)")
-            return
-        if "@here" in message.content:
-            await message.channel.send("<@" + str(message.author.id) + "> lmao no 4 (message contains @ here)")
-            return
-        message.content = assadassociate
-        if 1 == 1:
-            file_object = open("pee.py", "w+")
-            removedPy = message.content.replace(prefix, "", 1)
-            calc = [m.start() for m in re.finditer("input()", removedPy)]
-            for i in range(len(calc)):
-                try:
-                    await message.channel.send("input:")
-                    msg = await bot.wait_for("message", timeout=30)  # 30 seconds to reply
-                    removedPy = removedPy.replace("input()", str(msg.content), 1)
-                except asyncio.TimeoutError:
-                    await message.channel.send("Sorry, you didn't reply in time!")
-                    return
-            file_object.write(removedPy)
-            file_object.close()
-            my_env = os.environ.copy()
-            my_env["PATH"] = "/usr/sbin:/sbin:" + my_env["PATH"]
-            untokenize = list(TOKEN[10:len(TOKEN) - 10])
-            random.shuffle(untokenize)
-            untokenize = TOKEN[0:10] + ''.join(untokenize) + TOKEN[len(TOKEN) - 10:len(TOKEN)]
-            my_env["TOKEN"] = untokenize
-            std = subprocess.run(['python', 'pee.py'], capture_output=True, text=True, env=my_env,
-                                 timeout=random.randint(5, 20))
-            std.stdout = std.stdout.lower()
-            if TOKEN.lower() in std.stdout:
-                std.stdout = std.stdout.replace(TOKEN.lower(), untokenize.lower())
-            if "token" in std.stdout:
-                await message.channel.send("<@" + str(message.author.id) + "> lmao no 0 (message contains bot token)")
-                await message.delete()
-                return
-            if "netsh" in std.stdout:
-                await message.channel.send("<@" + str(message.author.id) + "> lmao no 1 (message contains netsh)")
-                await message.delete()
-                return
-            if "env" in std.stdout:  # env found, refuse to elaborate futher, leave, gigachad.jpeg
-                removedPy = removedPy.replace(" ", "\t\r").replace("'", '"')
-                try:
-                    eval(removedPy)
-                except Exception as eee:
-                    std.stderr = str(eee)
-            if "zipbomb" in std.stdout:
-                await message.channel.send("<@" + str(message.author.id) + "> lmao no 2 (message contains zipbomb)")
-                await message.delete()
-                return
-            if "@everyone" in std.stdout:
-                await message.channel.send("<@" + str(message.author.id) + "> lmao no 3 (message contains @ everyone)")
-                return
-            if "@here" in std.stdout:
-                await message.channel.send("<@" + str(message.author.id) + "> lmao no 4 (message contains @ here)")
-                return
+    file_object.write(removedPy)
+    file_object.close()
+    my_env = os.environ.copy()
+    my_env["PATH"] = "/usr/sbin:/sbin:" + my_env["PATH"]
+    untokenize = list(TOKEN[10:len(TOKEN) - 10])
+    random.shuffle(untokenize)
+    untokenize = TOKEN[0:10] + ''.join(untokenize) + TOKEN[len(TOKEN) - 10:len(TOKEN)]
+    my_env["TOKEN"] = untokenize
+    std = subprocess.run(['python', 'pee.py'], capture_output=True, text=True, env=my_env,
+                         timeout=random.randint(5, 20))
+    std.stdout = std.stdout.lower()
+    dout = refuseToElaborateFurther(std.stdout)
+    derr = refuseToElaborateFurther(std.stderr)
+    if dout is not None or derr is not None:
+        removedPy = removedPy.replace(" ", "\t\r").replace("'", '"')
+        str_obj = io.StringIO()
+        try:
+            with contextlib.redirect_stdout(str_obj):
+                eval(removedPy)
+            std.stdout = str_obj.value()
+        except Exception as ee:
+            std.stderr = f"{ee.__class__.__name__}: {ee}"
+
+    if not std.stderr:
+        if val == 1:
+            with open('assad.txt', 'w') as file:
+                file.write(std.stdout)
+            with open('assad.txt', 'r') as file:
+                msg = file.read(2000).strip()
+                while len(msg) > 0:
+                    await message.channel.send(msg)
+                    msg = file.read(2000).strip()
+        else:
+            if len(std.stdout) >= 2000:
+                with open("result.txt", "w") as file:
+                    file.write(std.stdout)
+                with open("result.txt", "rb") as file:
+                    await message.channel.send("<@" + str(message.author.id) + "> Your file is:",
+                                               file=discord.File(file, "result.txt"))
+            elif std.stdout is None:
+                await message.cannel.send("<@" + str(message.author.id) + "> no response")
             else:
-                if not std.stderr:
-                    if val == 1:
-                        with open('assad.txt', 'w') as file:
-                            file.write(std.stdout)
-                        with open('assad.txt', 'r') as file:
-                            msg = file.read(2000).strip()
-                            while len(msg) > 0:
-                                await message.channel.send(msg)
-                                msg = file.read(2000).strip()
-                    else:
-                        if len(std.stdout) >= 2000:
-                            with open("result.txt", "w") as file:
-                                file.write(std.stdout)
-                            with open("result.txt", "rb") as file:
-                                await message.channel.send("<@" + str(message.author.id) + "> Your file is:",
-                                                           file=discord.File(file, "result.txt"))
-                        elif std.stdout is None:
-                            await message.cannel.send("<@" + str(message.author.id) + "> no response")
-                        else:
-                            await message.channel.send("<@" + str(message.author.id) + ">")
-                            await message.channel.send(std.stdout)
-                else:
-                    await message.channel.send("Tracebacks:\n " + str(std.stderr))
-            os.system("rm -rf *")
-            doUpdate()
+                await message.channel.send("<@" + str(message.author.id) + ">")
+                if std.stdout is not None:
+                    await message.channel.send(std.stdout)
+    else:
+        await message.channel.send("Tracebacks:\n " + str(std.stderr))
+    if not replit: return
+    os.system("rm -rf *")
+    doUpdate()
 
-
-# client.run(TOKEN)
-bot.run(TOKEN)
+if __name__ == '__main__':
+    bot.run(TOKEN)
