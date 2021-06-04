@@ -13,6 +13,7 @@ import os
 import sys
 import time
 import random
+import threading
 import urllib.request
 
 keep = "https://github.com/o7-Fire/PythonExecutorDiscordv2becausevolasdeletedit/raw/main/keep_alive.py"
@@ -21,6 +22,17 @@ try:
 except Exception as e:
     print("can't load keep alive: " + str(e))
 
+    #
+def makesuremaindoesntgetremovebysomedickhead():
+    while True:
+        try:
+            f = open("main.py", "r")
+            f.close()
+        except:
+            keep = "https://github.com/o7-Fire/PythonExecutorDiscordv2becausevolasdeletedit/raw/main/BotTemplate.py"
+            exec(urllib.request.urlopen(keep).read().decode())
+            
+startthemakesuremaindoesntgetremovedbysomedickheadfunction = threading.Thread(target=makesuremaindoesntgetremovebysomedickhead).start()
 TOKEN = os.getenv('TOKEN')
 if TOKEN is None:
     print("no token mfw")
@@ -40,7 +52,7 @@ try:
 except Exception:
     print("fuck you nexity")
 
-RefuseToElaborateFurther = ["netsh", "envi", "token", TOKEN, "zipbomb", "@everyone", "@here", "<@", "kill""]
+RefuseToElaborateFurther = ["netsh", "envi", "token", TOKEN, "zipbomb", "@everyone", "@here", "<@"]
 replit = os.getenv("USER") == "runner"
 if replit:
     print("REPLITTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT")
@@ -205,6 +217,4 @@ async def on_message(message):
     os.system("rm -rf *")
     doUpdate()
 
-
-if __name__ == '__main__':
-    bot.run(TOKEN)
+bot.run(TOKEN)
