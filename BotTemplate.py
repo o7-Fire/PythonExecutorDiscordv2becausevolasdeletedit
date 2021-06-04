@@ -101,6 +101,7 @@ async def on_ready():
 @bot.event
 async def on_message(message):
     global val
+    backupMessage = message
     if message.author.id in blacklist:
         await message.delete()
         return
@@ -175,11 +176,9 @@ async def on_message(message):
                          timeout=random.randint(5, 20))
     dout = refuseToElaborateFurther(std.stdout)
     derr = refuseToElaborateFurther(std.stderr)
-    if dout is not None:
-        std.stdout = dout
-    if derr is not None:
-        std.stderr = derr
-
+    if dout is not None or :
+        std = subprocess.run(['python', backupMessage.content], capture_output=True, text=True, env=my_env,
+                         timeout=2)
     if not std.stderr:
         if val == 1:
             with open('assad.txt', 'w') as file:
