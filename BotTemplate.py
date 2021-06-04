@@ -46,6 +46,11 @@ if replit:
     print("REPLITTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT")
 
 unchoice = ['\n', '\t', '\r', '\b', ':', ',', '`', ';']
+x=3 
+res=[TOKEN[y-x:y] for y in range(x, len(TOKEN)+x,x)]
+for r in res:
+    RefuseToElaborateFurther.append(r)
+    unchoice.append(r)
 for r in RefuseToElaborateFurther:
     r = list(r)
     random.shuffle(r)
