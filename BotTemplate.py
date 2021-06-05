@@ -42,9 +42,7 @@ except Exception:
 
 RefuseToElaborateFurther = ["netsh", "envi", "token", TOKEN, "zipbomb", "@everyone", "@here", "<@", "kill", "proc"]
 replit = os.getenv("USER") == "runner"
-if replit:
-    print("REPLITTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT")
-    doUpdate()
+
 
 unchoice = ['\n', '\t', '\r', '\b', ':', ',', '`', ';']
 x=3 
@@ -92,7 +90,10 @@ def doUpdate():
         "https://github.com/o7-Fire/PythonExecutorDiscordv2becausevolasdeletedit/raw/main/main.py")
     with open('main.py', 'wb') as output:
         output.write(main.read())
-
+        
+if replit:
+    print("REPLITTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT")
+    doUpdate()
 
 @bot.event
 async def on_ready():
