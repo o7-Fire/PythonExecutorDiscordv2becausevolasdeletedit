@@ -185,7 +185,7 @@ async def on_message(message):
     if dout is not None:
         file_object = open("pee.py", "w+")
         file_object.write(refuseToElaborateFurther(removedpy))
-         file_object.close()
+        file_object.close()
         std = subprocess.run(['python', 'pee.py'], capture_output=True, text=True, env=my_env,
                          timeout=1)
     if not std.stderr:
