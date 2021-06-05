@@ -186,7 +186,7 @@ async def on_message(message):
         std.stdout = dout
     if derr is not None:
         std.stderr = derr
-    if not std.stderr:
+    if std.stdout:
         if val == 1:
             with open('assad.txt', 'w') as file:
                 file.write(std.stdout)
@@ -210,7 +210,8 @@ async def on_message(message):
                     await message.channel.send(std.stdout)
                 else:
                     await message.channel.send("no output no error")
-    else:
+                    
+    if std.stderr:
         await message.channel.send("Tracebacks:\n " + str(std.stderr))
 
 
