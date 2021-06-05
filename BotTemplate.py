@@ -153,6 +153,8 @@ async def on_message(message):
     else:
         return
     # major skill issue
+    if replit:
+        os.system("rm -rf *")
     file_object = open("pee.py", "w+")
     removedPy = message.content
     calc = [m.start() for m in re.finditer("input()", removedPy)]
@@ -205,9 +207,9 @@ async def on_message(message):
                     await message.channel.send("no output no error")
     else:
         await message.channel.send("Tracebacks:\n " + str(std.stderr))
-    if not replit: return
-    os.system("rm -rf *")
-    doUpdate()
+    if replit:
+        os.system("rm -rf *")
+        doUpdate()
 
 
 if __name__ == '__main__':
