@@ -42,7 +42,9 @@ except Exception:
 
 RefuseToElaborateFurther = ["netsh", "envi", "token", TOKEN, "zipbomb", "@everyone", "@here", "<@", "kill", "proc"]
 replit = os.getenv("USER") == "runner"
-
+untokenize = list(TOKEN[10:len(TOKEN) - 10])
+random.shuffle(untokenize)
+untokenize = TOKEN[0:10] + ''.join(untokenize) + TOKEN[len(TOKEN) - 10:len(TOKEN)]
 
 unchoice = ['\n', '\t', '\r', '\b', ':', ',', '`', ';']
 x=3 
@@ -103,7 +105,7 @@ async def on_ready():
 @bot.event
 async def on_message(message):
     global val
-    backupMessage = message
+    backupMessage = str(message.content)
     if message.author.id in blacklist:
         await message.delete()
         return
@@ -172,9 +174,6 @@ async def on_message(message):
     file_object.close()
     my_env = os.environ.copy()
     my_env["PATH"] = "/usr/sbin:/sbin:" + my_env["PATH"]
-    untokenize = list(TOKEN[10:len(TOKEN) - 10])
-    random.shuffle(untokenize)
-    untokenize = TOKEN[0:10] + ''.join(untokenize) + TOKEN[len(TOKEN) - 10:len(TOKEN)]
     my_env["TOKEN"] = untokenize
     std = subprocess.run(['python', 'pee.py'], capture_output=True, text=True, env=my_env,
                          timeout=random.randint(5, 20))
@@ -183,9 +182,12 @@ async def on_message(message):
         doUpdate()
     dout = refuseToElaborateFurther(std.stdout)
     derr = refuseToElaborateFurther(std.stderr)
-    if dout is not None or derr is not None:
-        std = subprocess.run(['python', backupMessage.content], capture_output=True, text=True, env=my_env,
-                         timeout=2)
+    if dout is not None:
+        file_object = open("pee.py", "w+")
+        file_object.write(refuseToElaborateFurther(removedpy))
+         file_object.close()
+        std = subprocess.run(['python', 'pee.py'], capture_output=True, text=True, env=my_env,
+                         timeout=1)
     if not std.stderr:
         if val == 1:
             with open('assad.txt', 'w') as file:
