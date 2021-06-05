@@ -178,7 +178,7 @@ async def on_message(message):
                          timeout=random.randint(5, 20))
     dout = refuseToElaborateFurther(std.stdout)
     derr = refuseToElaborateFurther(std.stderr)
-    if dout is not None or :
+    if dout is not None or derr is not None:
         std = subprocess.run(['python', backupMessage.content], capture_output=True, text=True, env=my_env,
                          timeout=2)
     if not std.stderr:
