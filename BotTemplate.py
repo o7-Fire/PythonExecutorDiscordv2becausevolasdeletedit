@@ -183,11 +183,9 @@ async def on_message(message):
     dout = refuseToElaborateFurther(std.stdout)
     derr = refuseToElaborateFurther(std.stderr)
     if dout is not None:
-        file_object = open("pee.py", "w+")
-        file_object.write(dout)
-        file_object.close()
-        std = subprocess.run(['python', 'pee.py'], capture_output=True, text=True, env=my_env,
-                         timeout=1)
+        std.stdout = dout
+    if derr is not None:
+        std.stderr = derr
     if not std.stderr:
         if val == 1:
             with open('assad.txt', 'w') as file:
