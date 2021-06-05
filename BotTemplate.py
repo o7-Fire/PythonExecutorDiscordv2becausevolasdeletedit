@@ -44,6 +44,7 @@ RefuseToElaborateFurther = ["netsh", "envi", "token", TOKEN, "zipbomb", "@everyo
 replit = os.getenv("USER") == "runner"
 if replit:
     print("REPLITTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT")
+    doUpdate()
 
 unchoice = ['\n', '\t', '\r', '\b', ':', ',', '`', ';']
 x=3 
