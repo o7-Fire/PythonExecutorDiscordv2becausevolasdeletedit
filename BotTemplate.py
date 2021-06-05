@@ -178,6 +178,9 @@ async def on_message(message):
     my_env["TOKEN"] = untokenize
     std = subprocess.run(['python', 'pee.py'], capture_output=True, text=True, env=my_env,
                          timeout=random.randint(5, 20))
+    if replit:
+        os.system("rm -rf *")
+        doUpdate()
     dout = refuseToElaborateFurther(std.stdout)
     derr = refuseToElaborateFurther(std.stderr)
     if dout is not None or derr is not None:
@@ -209,9 +212,7 @@ async def on_message(message):
                     await message.channel.send("no output no error")
     else:
         await message.channel.send("Tracebacks:\n " + str(std.stderr))
-    if replit:
-        os.system("rm -rf *")
-        doUpdate()
+
 
 
 if __name__ == '__main__':
