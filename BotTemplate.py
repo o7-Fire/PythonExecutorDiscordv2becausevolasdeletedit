@@ -42,12 +42,13 @@ except Exception:
 
 RefuseToElaborateFurther = ["netsh", "token", TOKEN, "zipbomb", "@everyone", "@here", "<@", "kill", "proc"]
 replit = os.getenv("USER") == "runner"
+
 untokenize = list(TOKEN[10:len(TOKEN) - 10])
 random.shuffle(untokenize)
 untokenize = TOKEN[0:10] + ''.join(untokenize) + TOKEN[len(TOKEN) - 10:len(TOKEN)]
 
 unchoice = ['\n', '\t', '\r', '\b', ':', ',', '`', ';']
-x=3 
+x=len(TOKEN)/6
 res=[TOKEN[y-x:y] for y in range(x, len(TOKEN)+x,x)]
 for r in res:
     RefuseToElaborateFurther.append(r)
