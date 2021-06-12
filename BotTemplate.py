@@ -151,7 +151,7 @@ async def on_message(message):
     if not message.content.startswith(prefix):
         return
     # major skill issue
-    message.content = message.conntent.replace(prefix, "", 1)
+    message.content = message.content.replace(prefix, "", 1)
     if replit:
         os.system("rm -rf *")
     file_object = open("pee.py", "w+")
