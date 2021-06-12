@@ -148,14 +148,7 @@ async def on_message(message):
         await message.channel.send("cya")
         sys.exit(0)
 
-    if message.content.startswith(prefix):
-        message.content = message.content.replace(prefix, "", 1)
-        disassociate = message.content
-        disassociate = refuseToElaborateFurther(disassociate)
-        if disassociate is None:
-            disassociate = message.content
-        message.content = disassociate
-    else:
+    if not message.content.startswith(prefix):
         return
     # major skill issue
     if replit:
